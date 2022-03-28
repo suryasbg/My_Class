@@ -1,0 +1,380 @@
+							              DOCKER
+								===================
+DEF: docker is a container management service. Docker is a high end Devops tool that allows building, ship and run distributed applications 
+on multiple systems.
+
+Features of Docker:
+-------------------						
+	(i)  Docke has the ability to reduce size of development with the containers.
+	(ii) with the containers, it becomes easier for teams across different units such as development, QA and operations to work across applications.
+	(iii)we can deploey docker containers any where, on any physical and virtual m/c's and even on the cloud.
+	(iv) Docker containers are pretty lightweight, they are very easily scalable.
+
+Components of Docker:
+---------------------
+	(i)   Docker for Mac---------> it allows to run docker container on Mac OS
+	(ii)  Docker for Linux-------> it allows to run docker container on Linux OS
+	(iii) Docker for windows-----> it allows to run docker container on windows OS
+	(iv)  Docker Engine----------> it is used for building docker images and creating docker containers
+	(v)   DockerHub--------------> it is the registry which is used to host various docker images
+	(vi)  Docker compose---------> it used to define applications using multiple containers
+
+Virtualization:
+---------------
+	Here we have a bare metal (new H/W) where we install a host of OS and on top of the host we install a s/w called hypervisor (Vmware, Esxi, Critix xen, 
+MicrosoftHyperV etc.) .On the host we install the guest OS and on top of guest OS we install the applications that we want. The problem here is all the 
+applications have to pass through lot of layers to access the hardware resources.
+ 
+Docker Iamge:
+-------------
+	it is the combination of bin and lib that are neccessary for a software applications to run. Most of these images are avialable in cloud site of docker.
+
+Docker Container:
+-----------------
+	it is a running instance of a docker image is known as Docker Container. Any no.of containers can be created from one Docker Image.
+
+Docker Client:
+--------------
+	This is an application which is responsible for accepting the docker commands and pass them to the docker deamon. In windows machine power shell acts as 
+docker client and in linux, Mac OS terminal acts as docker client.
+
+Docker Deamon:
+--------------
+	This is a background process to accept all the docker commands and send them to the docker images or docker containers or docker registry.
+
+Docker Registry:
+----------------
+	This is a location where docker images can be stored. this is of two types
+	i. Public Registry:----> it is maintaned by the docker corporation and it is the cloud site of the docker where the images are available.
+	ii. private Registry:--> it is created within the servers of our organisation and it can be accessed by our organisation team members.
+
+DOCKER INSTALLATION IN LINUX UBUNTU MACHINE
+===========================================
+
+	1. Create an AWS linux ubuntu instance
+	2. open the terminal
+	3. open https://docs.docker.com/engine/install/ubuntu/
+
+		Set up the repository
+		---------------------
+        4. Update the apt package index and install packages to allow apt to use a repository over HTTPS:
+		$ sudo apt-get update
+ 		$ sudo apt-get install \
+   		  ca-certificates \
+   		  curl \
+    	       	 gnupg \
+    		lsb-release
+	5. Add Docker’s official GPG key:
+		 $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+	6. Use the following command to set up the stable repository. To add the nightly or test repository, add the word nightly or test (or both) 
+	   after the word stable in the commands below.
+		echo \
+  		"deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  		$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+		Install Docker Engine
+		---------------------
+		 
+	4. Update the apt package index, and install the latest version of Docker Engine and containerd, or go to the next step to install a specific version:
+		 $ sudo apt-get update
+ 		 $ sudo apt-get install docker-ce docker-ce-cli containerd.io
+	
+
+	
+(A) WORKING COMMANDS ON DOCKER CONTAINER
+=========================================
+
+	---> docker run -itd --name container_name --hostname container_name -p 8080:8080 ubuntu:20.04 /bin/bash (used to create the container with port)
+	
+	---> docker ps -a (or) docker container ls -a  ( it list all the containers)
+
+	---> docker start contaner_name/container_id   (used to start the container)
+	
+	---> docker stop contaner_name/container_id    (used to stop the container)
+
+	---> docker rm container_name/container_id     (used to delete the stoped container)
+
+	---> docker rm -f container_name/container_id  (used to delete the running container)
+
+	---> docker rm -f $(docker ps -aq)             (used to delete all the stoped and running containers)
+
+	---> docker inspect container_name/contaner_id (used to get the detailed info of the container)
+
+	---> docker log container_name/contaner_id     (used to get the logs generated by a container)
+
+	---> docker port container_name/contaner_id    (used to see the prot of a container)
+
+	RUN A CONTAINER 
+     ----------------
+
+	---> docker exec -it contaner_name/container_id /bin/bash   (used to run the container)
+
+	---> docker attach contaner_name/contaner_id                (used to run the container)
+
+
+(B) WORKING COMMANDS ON DOCKER IMAGE
+=====================================
+
+	 First we will pull the image Before creating a container.
+	
+	---> docker pull image_name
+	
+	ex: docker pull ubuntu
+	    docker pull centos
+	    docker pull rhel
+		where:--> ubuntu, centos & rhel are the linux operating system flavours known as docker images.
+
+	
+  	---> docker pull image_name
+
+	---> docker images (or) docker image ls  ( it list all the images)
+
+	---> docker rmi image_name               (used to delete an image)
+
+	---> docker rmi -f image_name            (used to delete an image running on container)
+
+	---> docker system prune -a              (used to delete all images present on docker)
+
+	---> docker push image_name              (used to push the image to dockerhub)
+
+ 	---> docker search image_name            (used to search the image on hub.docker.com)
+
+
+(C) WORKING COMMANDS ON DOCKER VOLUME
+=====================================
+
+        volume is used to store the container data
+
+	---> docker volume create volume_name  (it create the volumes) 
+	---> docker volume ls                  (it list all the volumes)
+	---> docker volume inspect volume_name (used to get the detailed info of the volume)
+	---> docker volume rm volume_name      (used to delete the volume)
+
+(D) WORKING COMMANDS ON DOCKER NETWORK
+=======================================
+ 	
+	---> docker network ls                                                                (it list all the networks)
+	---> docker network create --driver network_type network_name                         (used to create network)
+	---> docker inspect network_name						                          (used to get the detailed info of the volume)
+	---> docker network connect network_name/network_id container_name/contaner_id        (used to connect a container to a network)
+	---> docker network disconnect network_name/network_id container_name/contaner_id     (used to disconnect a container to a network)
+	---> docker network rm network_name/network_id					               (used to delete the volume)
+
+
+(E) CREATE A CONTAINER WITH PORT,VOLUME & IMAGE
+===============================================
+
+	---> docker run -itd --name container_name --hostname container_name -p 8080:8080 -v volume1:/home/naga/.jenkins naga306/myubuntu:002 /bin/bash
+	
+	---> docker ps -a (or) docker container ls -a ( it list all the containers)
+
+	-p= port number of the container
+	-v= volme of the container ( it stores the container data in volume)
+	  =volume1:/home/naga/.jenkins (it stores the .jenkins data in volume1)
+	naga306/myubuntu:002 = image:tag
+
+(F) DOCKERFILE INSTRUCTIONS
+===========================
+	1. FROM--------------> FROM instruction used to specify the valid docker image name.
+	2. MAINTAINER--------> MAINTAINER instruction is used to specify about the author who creates this new docker image for the support.
+	3. LABEL-------------> LABEL instruction is used to specify metadata informations to an image.
+	4. EXPOSE------------> EXPOSE instruction is used to inform about the network ports that the container listens on runtime.
+	5. ADD---------------> ADD instruction is used to copy files, directories and remote URL files to the destination within the filesystem of the Docker Images.
+	6. COPY--------------> COPY instruction is used to copy files, directories and remote URL files to the destination within the filesystem of the Docker Images.
+	7. RUN---------------> RUN instruction is used to executes any commands on top of the current image and this will create a new layer. 
+	8. CMD---------------> CMD instruction is used to set a command to be executed when running a container.
+	9. ENTRYPOINT--------> ENTRYPOINT instruction is used to configure and run a container as an executable.
+     10.VOLUME------------> VOLUME instruction is used to create or mount a volume to the docker container from the docker host filesystem.
+
+(G) CREATING A DOCKER IMAGE
+=============================
+
+	METHOD:1 CREATING A DOCKER IMAGE WITH CONTAINER COMMIT
+	------------------------------------------------------
+ 	--> docker commit contaner_name naga306/muubuntu
+	
+	container_name= existing container
+	naga306/myubuntu= new image name
+
+	Now create a container with an image
+	-------------------------------------
+	--> docker run -itd --name container_name --hostname container_name -p 8080:8080 -v volume1:/home/naga/.jenkins naga306/myubuntu:002 /bin/bash
+
+	METHOD:2 CREATING A DOCKER IMAGE WITH DOCKERFILE 
+	-------------------------------------------------
+	Create a file vim command
+
+	vim Dockerfile
+
+	FROM ubuntu:20.04
+	RUN useradd -md /home/naga -p "naga" -s /bin/bash naga
+	RUN apt update
+	RUN apt install sudo -y
+	RUN usermod -aG sudo naga
+	RUN sudo su naga | echo "naga"
+	RUN cd ~
+	RUN sudo apt update
+	RUN sudo apt install openjdk-8-jdk -y
+	RUN sudo apt install git -y
+	RUN sudo apt install maven -y
+	RUN sudo apt install wget -y
+	RUN sudo apt install vim -y
+	RUN sudo wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.56/bin/apache-tomcat-9.0.56.tar.gz
+	RUN sudo tar -zxvf apache-tomcat-9.0.56.tar.gz
+	RUN sudo wget https://get.jenkins.io/war-stable/2.319.1/jenkins.war
+	RUN sudo cp jenkins.war apache-tomcat-9.0.56/webapps/
+	RUN sudo cp -r apache-tomcat-9.0.56 /opt/
+	RUN sudo chown -R naga:naga /opt/apache-tomcat-9.0.56
+	RUN sudo apt install ssh -y
+	RUN sudo echo -e "PermitRootLogin yes \nPubkeyAuthentication yes \nPasswordAuthentication yes" >> /etc/ssh/sshd_config
+	ENTRYPOINT sudo service ssh start && bash
+	:wq!
+
+   	 Now bulid an image with Dockerfile:
+   	 -----------------------------------
+
+	--->docker build -t "naga306/myubuntu:001" .
+
+	 naga306/myubunut:001=image:tag
+	 . : dot represents the current path of Dockerfile
+
+	Now create a container with the docker image:
+	---------------------------------------------
+	--->docker run -itd --name container_name --hostname container_name -p 8080:8080 -v volume1:/home/naga/.jenkins naga306/myubuntu:002 /bin/bash
+
+
+(H) CREATING MULTIPLE CONTAINERS IN BASE MACHINE (SHELL SCRIPT)
+=====================================================================
+
+Create a file with vim command
+
+vim shellscript.sh
+
+#!/bin/bash
+count=$1
+for (( i=0; i<$count; i++ ))
+do
+        echo "=================== Createing Container $i ======================"
+        docker run -itd --name container$i --hostname container$i -p `expr 8084 + $i`:8080 -v volume1:/home/naga/.jenkins naga306/myubuntu:002 /bin/bash
+        echo "Container $i ip is $(docker inspect --format {{.NetworkSettings.Networks.bridge.IPAddress}} container$i)"
+        echo ""
+done
+
+	run the shellscript.sh file 
+	---------------------------
+	./shellscript.sh 10-->Enter    ( 10: represents no.of containers)
+ 
+                                                                   (or)
+
+Create a file with vim command
+
+vim shellscript.sh
+
+#!/bin/bash
+for i in {1..5}
+do
+docker run -itd --name hi$i --hostname hi$i -p `expr 6060 + $i`:8080 naga306/myubuntu:002 /bin/bash
+done
+
+	run the shellscript.sh file 
+	---------------------------
+	./shellscript.sh
+         
+
+
+(I) CREATING MULTIPLE CONTAINERS && DEPLOY .WAR FILE INTO MULTIPLE CONTAINERS...CONFIGURE THE JOB FROM JENKINS DASHBOARD (SHELL SCRIPT)
+=========================================================================================================================================
+
+1. crete a new project in jenkins dashboard-->select free style project--->ok
+2. General--->select this project is parametrized--->select string parameters--->name:count default value:2
+3.Build--->Add build step--->select invoke top level maven target(maven 3.8-install)---->Add build step--->select execute shell
+
+#!/bin/bash
+
+for (( i=0; i<$count; i++ ))
+do
+        echo "=================== Createing Container $i ======================"
+        docker run -itd --name container$i --hostname container$i -p `expr 8084 + $i`:8080 -v volume1:/home/naga/.jenkins naga306/myubuntu:002 /bin/bash
+        echo "Container $i ip is $(docker inspect --format {{.NetworkSettings.Networks.bridge.IPAddress}} container$i)"
+        docker cp target/sparkjava-hello-world-1.0.war container$i:/opt/apache-tomcat-9.0.56/webapps/
+        echo "Deploying to container $i ......"
+        echo ""
+done
+
+                                                    
+(J) DEPLOY .WAR FILE INTO MULTIPLE EXISTING CONTAINERS.....CONFIGURE THE JOB FROM JENKINS DASHBAOARD (SHELL SCRIPT)
+===================================================================================================================
+
+1. crete a new project in jenkins dashboard-->select free style project--->ok
+2. General--->select this project is parametrized--->select string parameters--->name:count default value:2
+3.Build--->Add build step--->select invoke top level maven target(maven 3.8-install)---->Add build step--->select execute shell
+
+#!/bin/bash
+
+for (( i=0; i<$count; i++ ))
+do
+        #echo "=================== Createing Container $i ======================"
+        #docker run -itd --name container$i --hostname container$i -p `expr 8084 + $i`:8080 -v volume1:/home/naga/.jenkins naga306/myubuntu:002 /bin/bash
+        #echo "Container $i ip is $(docker inspect --format {{.NetworkSettings.Networks.bridge.IPAddress}} container$i)"
+        docker cp target/sparkjava-hello-world-1.0.war container$i:/opt/apache-tomcat-9.0.56/webapps/
+        echo "Deploying to container $i ......"
+        echo ""
+done
+
+(K) DOCKER-COMPOSE (CREATING MULTILPLE CONTAINERS WITH DOCKER-COMPOSE.YML FILE)
+===============================================================================
+
+	1. install docker-compose in linux machine
+		
+		--> https://docs.docker.com/compose/install/#install-compose
+		--> sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+		--> sudo chmod +x /usr/local/bin/docker-compose
+		--> docker-compose --version
+
+	2. create docker-compose.yml file in linux machine with vim command
+
+		vim docker-compose.yml
+		
+		---
+		version: "3.0"
+		services:
+ 		 myubuntu-cont:
+			container_name: ubuntucontainer
+    			image: naga306/myubuntu:002
+			volumes:
+			 - "volume1:/home/naga/.jenkins"
+  			ports:
+  			 - "9090:8080"
+			tty: true
+	        volumes:	
+                 volume1:
+
+		 myubuntu:
+			container_name: testcontainer
+   		        image: ubuntu:20.04
+  			ports:
+  			 - "8010:8080"
+	       ...
+		
+	       :wq!
+
+		this file start with ---(3 dash lines) and ends with ...(3 dots)
+
+	3. now cerate multiple containers in the linux machine
+	
+		--> docker-compose up -d
+
+		check the containers are craeted or not 
+
+		--> docker ps -a
+
+(L) PUSH THE IMAGE FROM LOCAL TO DOCKERHUB REPOSITORY
+======================================================
+
+1. docker login
+   	username:********
+   	password:********
+2. docker push image_name
+	image_name: existing image
+3. check the image in dockerhub repository
+

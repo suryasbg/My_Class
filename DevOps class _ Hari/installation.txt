@@ -1,0 +1,114 @@
+                                                     PROMETHEUS INSTALLATION
+        							         ========================		
+
+INSTALLATION IN UBUNTU
+=======================
+
+1.  
+2. sha256sum prometheus-2.9.2.linux-amd64.tar.gz ----> generate the key
+3.  tar -zxvf prometheus-2.9.2.linux-amd64.tar.gz
+4.  cp prometheus-2.9.2.linux-amd64/prometheus /usr/local/bin/
+5.  cp prometheus-2.9.2.linux-amd64/promtool /usr/local/bin/
+6.  vi prometheus.yml
+
+  	# my global config
+ 	global:
+  	scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+     evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  	# scrape_timeout is set to the global default (10s).
+
+ 	# Alertmanager configuration
+ 	alerting:
+  	alertmanagers:
+  	- static_configs:
+    	- targets:
+      # - alertmanager:9093
+
+	# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+	rule_files:
+  	# - "first_rules.yml"
+  	# - "second_rules.yml"
+
+	# A scrape configuration containing exactly one endpoint to scrape:
+	# Here it's Prometheus itself.
+	scrape_configs:
+  	# The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  	- job_name: 'prometheus'
+
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+
+    static_configs:
+    - targets: ['localhost:9090']
+7. start the service
+   ---> ./prometheus --config.file=prometheus.yml & ( '&' represents running in the background )
+								(_OR_)
+         nohup ./prometheus --config.file=prometheus.yml &                   
+   ---> http://ec2-35-154-154-118.ap-south-1.compute.amazonaws.com:9090/graph
+   ---> http://ec2-35-154-154-118.ap-south-1.compute.amazonaws.com:9090/metrics
+8. netstat -anlp | grep prometheus     ( instead of prometheus we can give port_number:9090, process ID ) 
+
+	where -anlp represents:
+		a=all
+		n=numeric
+		l=list
+		p=process ID
+
+9. kill -9 procees ID(566) ----> kill the process id
+MONITORING THE LINUX HOSTMETRIC WITH THE NODE EXPORTER
+=======================================================
+
+	The prometheus node exporter which exposes a wide variety of hardware and kernel related metrics.
+	
+      Installing and running the Node exporter
+      ----------------------------------------
+		1. https://prometheus.io/download/#node_exporter ----> download from here
+		2. wget https://github.com/prometheus/node_exporter/releases/download/v0.17.0/node_exporter-0.17.0.linux-amd64.tar.gz
+		3. tar -zxvf node_exporter-0.17.0.linux-amd64.tar.gz
+		4. cd node_exporter-0.17.0.linux-amd64 && ls -lrth
+		5. start the node exporter service --------> ./node_exporter &  ( '&' represents running in the background )
+		6. vi prometheus.yml-----> change the configurations in prometeus.yml file ( - job_name: 'node' ; - targets: ['localhost:9100'] )
+
+  			# my global config
+ 			global:
+  			scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+    			 evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  			# scrape_timeout is set to the global default (10s).
+
+ 			# Alertmanager configuration
+ 			alerting:
+  			alertmanagers:
+  			- static_configs:
+    			- targets:
+     			 # - alertmanager:9093
+
+			# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+			rule_files:
+  			# - "first_rules.yml"
+  			# - "second_rules.yml"
+
+			# A scrape configuration containing exactly one endpoint to scrape:
+			# Here it's Prometheus itself.
+			scrape_configs:
+  			# The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  			- job_name: 'node'
+
+    			# metrics_path defaults to '/metrics'
+    			# scheme defaults to 'http'.
+
+    			static_configs:
+    			- targets: ['localhost:9100']
+		7. start the prometheus.yml service 
+ 			---> ./prometheus --config.file=prometheus.yml
+ 			---> http://ec2-35-154-154-118.ap-south-1.compute.amazonaws.com:9100/graph
+   			---> http://ec2-35-154-154-118.ap-south-1.compute.amazonaws.com:9100/metrics
+
+		   Now i need to monitor the
+              ------------------------- 
+                ----> node_cpu_seconds_total and node_exporter_build_info.
+		     ----> rate(mode_cpu_seconds_total{mode="system"}[1m])---> the average amount of CPU time spentin system mode, per second,     
+                      over last minute (in seconds)
+		
+			----> node_filesystem_avail_bytes ( the filesystem space is available to non-root users in bytes)
+                ----> rate(node_network_receive_bytes_total[1m]) --> (the average network traffic received, per second, over the last minute in bytes
+			

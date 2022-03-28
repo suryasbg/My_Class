@@ -1,0 +1,29 @@
+                                                                GRAFANA INSTALLATION IN LINUX
+                                                               ===============================
+
+(A) GRAFANA INSTALLATION IN UBUNTU LINUX STEPS:
+===============================================
+  1. https://www.itpanther.com/installing-grafana-on-linux/
+     Standalone Linux Binaries(64 Bit):
+     ----------------------------------
+  2. wget https://dl.grafana.com/oss/release/grafana-6.7.3.linux-amd64.tar.gz (UBUNTU)
+     wget https://dl.grafana.com/oss/release/grafana-6.7.3-1.x86_64.rpm (CENTOS,REDHAT)
+  3. tar -zxvf grafana-6.7.3.linux-amd64.tar.gz
+  4. start the grafan server---> cd monitoring && cd grafana-6.7.3 && cd bin && ./grafana-server
+  5. login to the garfana-server in web with:
+      ---> Domain name: localhost (cd monitoring && cd grafana-6.7.3 && cd conf && vim defaults.ini)
+      ---> grafana port number: 3000 (cd monitoring && cd grafana-6.7.3 && cd conf && vim defaults.ini)
+      ---> we can change the domain name and localhost in (cd monitoring && cd grafana-6.7.3 && cd conf && vim defaults.ini)
+  6. check the grafana service status
+  ------------------------------------
+      ---> service grafana-server status
+  CHANGING THE GRAFANA PORT AND DOMAIN NAME:
+  ------------------------------------------
+  1. got to the path defaults.ini cd monitoring && cd grafana-6.7.3 && cd conf && vim defaults.ini 
+     cahngae the domain name and prot number
+     ---> Domain name: grafana
+     ---> grafana port number: 3010
+  2. start the grafana-server---> cd monitoring && cd grafana-6.7.3 && cd bin && ./grafana-server
+
+
+  
